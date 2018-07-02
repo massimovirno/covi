@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/xampp/htdocs/comi/Entity/EEvento.php</file>
+            <file>file:/C:/xampp/htdocs/comi/templates/main/template/evento_termine.tpl</file>
+            <file>file:/C:/xampp/htdocs/comi/Entity/EEventoPartecipante.php</file>
+            <file>file:/C:/xampp/htdocs/comi/index.php</file>
+            <file>file:/C:/xampp/htdocs/comi/View/VCreazioneEvento.php</file>
+            <file>file:/C:/xampp/htdocs/comi/includes/config.inc.php</file>
+            <file>file:/C:/xampp/htdocs/comi/Foundation/FEvento.php</file>
+            <file>file:/C:/xampp/htdocs/comi/Controller/CHome.php</file>
+            <file>file:/C:/xampp/htdocs/comi/templates/main/template/home_default.tpl</file>
+            <file>file:/C:/xampp/htdocs/comi/templates/main/template/creazioneevento_modulo.tpl</file>
+            <file>file:/C:/xampp/htdocs/comi/Controller/CCreazioneEvento.php</file>
+        </group>
+    </open-files>
+</project-private>
