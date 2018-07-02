@@ -15,7 +15,7 @@ class VEvento extends View {
      */
     private $_layout='default';
     /**
-     * restituisce il numero della pagina (utilizzato nella visualizzazione dei libri) passato per GET o POST
+     * restituisce il numero della pagina (utilizzato nella visualizzazione degli eventi) passato per GET o POST
      * @return int
      */
     public function getPage() {
@@ -42,7 +42,7 @@ class VEvento extends View {
         $this->assign($key,$valore);
     }
     /**
-     * Ritorna l'id del libro passato tramite GET o POST
+     * Ritorna l'id dell'evento passato tramite GET o POST
      *
      * @return mixed
      */
