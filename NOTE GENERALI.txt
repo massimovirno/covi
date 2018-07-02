@@ -1,0 +1,15 @@
+NOTE
+====
+
+DA FARE:
+
+modificare evento_partecipazione.tpl
+
+mettere dettagli posti diponibili e input numero partecipanti
+
+bottone salva
+-------
+
+Pagina Conferma partecizione 
+
+e invio email (se possibile)

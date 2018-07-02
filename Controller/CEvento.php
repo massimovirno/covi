@@ -195,7 +195,7 @@ class CEvento {
         //$FOrdine->store($this->_carrello);
         
         //$this->emailConfermaEvento($this->_carrello);
-        $view->setLayout('pagamento');
+        $view->setLayout('partecipazione');
         //$session=USingleton::getInstance('USession');
         //$session->cancella_valore('carrello');
         return $view->processaTemplate();
