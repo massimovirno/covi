@@ -62,7 +62,7 @@ class FEvento extends Fdb{
         //$evento->setUtente($utente);
 
         //$FLocation=new FLocation();
-        //$location=$FLocation->load($evento->location);
+        //$location=$FLocation->load($evento->locationID);
         //$evento->setLocation($location);
         //$id = parent::store($evento);
         //$evento->id=$id;
