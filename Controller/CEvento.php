@@ -113,7 +113,7 @@ class CEvento {
 
         // LEGGI DATI LOCATION
         $FLocation=new FLocation();
-        $id_location=$evento->locationID;
+        $id_location=$evento->locationID_FK;
         $location=$FLocation->load($id_location);
         $dati_location=get_object_vars($location);
         $view->impostaDati('dati_location', $dati_location);
