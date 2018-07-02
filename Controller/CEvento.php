@@ -106,7 +106,7 @@ class CEvento {
 		
         // LEGGI DATI VINO
         $FVino=new FVino();
-        $id_vino=$evento->vino;
+        $id_vino=$evento->vinoID_FK;
         $vino=$FVino->load($id_vino);
         $dati_vino=get_object_vars($vino);
         $view->impostaDati('dati_vino', $dati_vino);
