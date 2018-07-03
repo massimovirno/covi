@@ -106,14 +106,14 @@ class CEvento {
 		
         // LEGGI DATI VINO
         $FVino=new FVino();
-        $id_vino=$evento->vino;
+        $id_vino=$evento->vinoID_FK;
         $vino=$FVino->load($id_vino);
         $dati_vino=get_object_vars($vino);
         $view->impostaDati('dati_vino', $dati_vino);
 
         // LEGGI DATI LOCATION
         $FLocation=new FLocation();
-        $id_location=$evento->location;
+        $id_location=$evento->locationID_FK;
         $location=$FLocation->load($id_location);
         $dati_location=get_object_vars($location);
         $view->impostaDati('dati_location', $dati_location);
@@ -195,7 +195,7 @@ class CEvento {
         //$FOrdine->store($this->_carrello);
         
         //$this->emailConfermaEvento($this->_carrello);
-        $view->setLayout('pagamento');
+        $view->setLayout('partecipazione');
         //$session=USingleton::getInstance('USession');
         //$session->cancella_valore('carrello');
         return $view->processaTemplate();
