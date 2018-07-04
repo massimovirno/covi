@@ -1,4 +1,4 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 4.3.11
 -- http://www.phpmyadmin.net
 --
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Database: `comi`
+-- Database: `covi`
 --
 
-DROP DATABASE IF EXISTS comi; 
-CREATE DATABASE IF NOT EXISTS `comi`;
-use `comi`;
+DROP DATABASE IF EXISTS covi; 
+CREATE DATABASE IF NOT EXISTS `covi`;
+use `covi`;
 
 -- --------------------------------------------------------
 
@@ -205,7 +205,7 @@ ADD CONSTRAINT `eventopartecipante_evento`      FOREIGN KEY (`eventoID_FK`)     
 
 -- --------------------------------------------------------
 
-use `comi`;
+use `covi`;
 --
 -- Dump dei dati per la tabella `utente`
 --
