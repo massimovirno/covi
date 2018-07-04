@@ -40,7 +40,7 @@ class EEvento {
     /**
      * @AttributeType string
      */
-    public $nome;
+    public $nome_evento;
     
     /**
      * @AttributeType Datetime
@@ -67,7 +67,12 @@ class EEvento {
      */
     public $prezzo;
 
-    /**
+	 /**
+     * @AttributeType string
+     */
+    public $categoria;	
+	
+	/**
      * @AttributeType string
      */
     public $foto;  
@@ -92,9 +97,6 @@ class EEvento {
     // DA IMPLEMENTARE
     //public $_commento = array();
  	
-    // METODI 
-    // RIVEDERE
-    
     /**
      * ========================================================================
      * @name setData($data)

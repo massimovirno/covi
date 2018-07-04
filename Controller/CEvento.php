@@ -42,22 +42,17 @@ class CEvento {
 
         //ricava l'istanza univoca dell'oggetto VEvento
         $view = USingleton::getInstance('VEvento');
-
-        //Crea un nuovo oggetto FEvento
         $FEvento=new FEvento();
-        
-        //definisce l'array $parametri
         $parametri=array();
         
         // memorizza nell'array PARAMETRI il flag PUBBLICATO=1
-	// $parametri[]=array('pubblicato','=',1);
+	$parametri[]=array('pubblicato','=',1);
     
 	//impostazioni per la visualizzazione degli eventi per pagina
         $limit=$view->getPage()*$this->_eventi_per_pagina.','.$this->_eventi_per_pagina;
 	$num_risultati=count($FEvento->search($parametri));
         $pagine = ceil($num_risultati/$this->_eventi_per_pagina);
         
-        //
         $risultato=$FEvento->search($parametri, '', $limit);
 
         // Recupera media voti
@@ -65,8 +60,13 @@ class CEvento {
             $array_risultato=array();
             
             foreach ($risultato as $item) {
+                // leggi dati EVENTO
                 $tmpEvento=$FEvento->load($item->eventoID);
-                $array_risultato[]=array_merge(get_object_vars($tmpEvento),array('media_voti'=>$tmpEvento->getMediaVoti()));
+                // leggi dati VINO
+                $FVino=new FVino();
+                $vinoID=$tmpEvento->vinoID_FK;
+                $vino=$FVino->load($vinoID);
+                $array_risultato[]=array_merge(get_object_vars($tmpEvento), get_object_vars($vino), array('media_voti'=>$tmpEvento->getMediaVoti()));
             }
         }
 		
@@ -88,16 +88,11 @@ class CEvento {
      * utenti registrati
      * ========================================================================
      */
-	//TERMINARE
     public function dettagli() {
         $view = USingleton::getInstance('VEvento');
-        $id_evento=$view->getIdEvento();
-        
-	//$id_evento=1;     
-        //echo "ID_EVE_DET+$id_evento";
-		
-		$FEvento=new FEvento();
-        $evento=$FEvento->load($id_evento);
+        $eventoID=$view->getIdEvento();
+        $FEvento=new FEvento();
+        $evento=$FEvento->load($eventoID);
         $dati=get_object_vars($evento);
         $view->impostaDati('dati',$dati);
 	    
@@ -106,15 +101,15 @@ class CEvento {
 		
         // LEGGI DATI VINO
         $FVino=new FVino();
-        $id_vino=$evento->vinoID_FK;
-        $vino=$FVino->load($id_vino);
+        $vinoID=$evento->vinoID_FK;
+        $vino=$FVino->load($vinoID);
         $dati_vino=get_object_vars($vino);
         $view->impostaDati('dati_vino', $dati_vino);
 
         // LEGGI DATI LOCATION
         $FLocation=new FLocation();
-        $id_location=$evento->locationID_FK;
-        $location=$FLocation->load($id_location);
+        $locationID=$evento->locationID_FK;
+        $location=$FLocation->load($locationID);
         $dati_location=get_object_vars($location);
         $view->impostaDati('dati_location', $dati_location);
 
@@ -147,7 +142,7 @@ class CEvento {
      */
     public function moduloPagamento() {
         $view = USingleton::getInstance('VEvento');
-        $id_evento=$view->getIdEvento();
+        $eventoID=$view->getIdEvento();
     
         $view->setLayout('pagamento');
         return $view->processaTemplate();
@@ -164,9 +159,9 @@ class CEvento {
     public function partecipa() {
         $view = USingleton::getInstance('VEvento');
         // DATI EVENTO
-        $id_evento=$view->getIdEvento();
+        $eventoID=$view->getIdEvento();
         $FEvento=new FEvento();
-        $evento=$FEvento->load($id_evento);
+        $evento=$FEvento->load($eventoID);
 	$dati=get_object_vars($evento);
 	$view->impostaDati('dati',$dati);
 		
@@ -195,7 +190,7 @@ class CEvento {
         //$FOrdine->store($this->_carrello);
         
         //$this->emailConfermaEvento($this->_carrello);
-        $view->setLayout('partecipazione');
+        $view->setLayout('pagamento');
         //$session=USingleton::getInstance('USession');
         //$session->cancella_valore('carrello');
         return $view->processaTemplate();
@@ -211,15 +206,15 @@ class CEvento {
      */
     public function salvaPartecipazioneEvento() {
         $view = USingleton::getInstance('VEvento');
-        $id_evento=$view->getIdEvento();
+        $eventoID=$view->getIdEvento();
         
         $dati_pagamento=$view->getDatiPagamento();
         $carta_credito= new FCartaCredito();
         $carta_credito->ccv=$dati_pagamento['ccv'];
-        $carta_credito->numero_pagamento=$dati_pagamento['cartacredito_numero'];
+        $carta_credito->numero_pagamento=$dati_pagamento['numero_carta'];
         $carta_credito->nome_titolare=$dati_pagamento['nome_titolare'];
         $carta_credito->cognome_titolare=$dati_pagamento['cognome_titolare'];
-        $carta_credito->setDataScadenza($dati_pagamento['data_scadenza']);
+        //$carta_credito->setDataScadenza($dati_pagamento['scadenza']);
 	$FCartaCredito = new FCartaCredito();
         $FCartaCredito->store($carta_credito);
         // -------
@@ -228,7 +223,7 @@ class CEvento {
         //
         $EveP=new EEventoPartecipante(); 
         $FEventoPartecipante=new FEventoPartecipante();
-        $EveP->eventoID=$id_evento;
+        $EveP->eventoID=$eventoID;
         $FEventoPartecipante->store($EveP);
         $view->setLayout('termine');
         return $view->processaTemplate();
@@ -255,12 +250,36 @@ class CEvento {
         $carrello['vini']=array();
         $carrello['totale']=$this->_carrello->getPrezzoTotale();
         foreach ($items as $item) {
-            $carrello['vini'][]=array_merge(get_object_vars($item->getVino()), array('quantita' => $item->quantita));
+            $carrello['vini'][]=array_merge(get_object_vars($item->getLibro()), array('quantita' => $item->quantita));
         }
         $view->impostaDati('ordine',$carrello);
         $corpo_email=$view->processaTemplate();
         $email=USingleton::getInstance('UEmail');
         return $email->invia_email($utente->email,$utente->nome.' '.$utente->cognome,'Conferma ordine',$corpo_email,'Contenuto non visibile, necessario client che supporti l\'HTML',true);
+    }
+	
+    /**
+     * ========================================================================
+     * @name inserisciCommento()
+     * @return string
+     * ========================================================================
+     * Inserisce un commento nel database collegandolo al relativo vino
+     * ========================================================================
+     */
+	 //TERMINARE
+	 /**
+    public function inserisciCommento() {
+        $session=USingleton::getInstance('USession');
+        $username=$session->leggi_valore('username');
+        if ($username!=false) {
+            $view = USingleton::getInstance('VEvento');
+            $ECommento = new ECommento();
+            $ECommento->voto=$view->getVoto();
+            $ECommento->testo=$view->getCommento();
+            $FCommento=new FCommento();
+            $FCommento->f($ECommento);
+            return $this->dettagli();
+        }
     }
 	
     /**

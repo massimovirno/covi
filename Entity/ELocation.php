@@ -17,11 +17,31 @@ class ELocation {
     /**
      * @@AttributeType string
      */
-    public $citta;
+    public $nome_location;
+
+    /**
+     * @@AttributeType string
+     */
+    public $via_location;
+
+    /**
+     * @@AttributeType string
+     */
+    public $CAP_location;
+
+    /**
+     * @@AttributeType string
+     */
+    public $citta_location;
     
     /**
      * @@AttributeType string
      */
-    public $indirizzo;
+    public $email_location;
+
+    /**
+     * @@AttributeType string
+     */
+    public $telefono_location;
 }
 ?>

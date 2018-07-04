@@ -23,7 +23,7 @@ class EVino {
     /**
      * @AttributeType string
      */
-    public $nome;
+    public $nome_vino;
    
     /**
      * @AttributeType string
