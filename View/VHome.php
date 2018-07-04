@@ -1,15 +1,35 @@
 <?php
 /**
- * File VHome.php contenente la classe VHome
- *
+ * ============================================================================
+ * @access public
  * @package view
+ * ============================================================================
+ * Class VHome - estende la classe view e gestisce la visualizzazione e 
+ *               formattazione del sito, inoltre imposta i principali contenuti 
+ *               della pagina, suddivisi in contenuti principali (main_content) 
+ *               e contenuti della barra laterale (side_content)
+ * ============================================================================
+ * aggiungiModuloLogin()            - Aggiunge il modulo di login nella pagina 
+ *                                    principale, per gli utenti non autenticati
+ * aggiungiTastoLogout()            - aggiunge il tasto logout al menu laterale
+ * aggiungiTastoRegistrazione()     - aggiunge il tasto per la registrazione 
+ *                                    nel menu laterale (per gli utenti non 
+ *                                    autenticati)
+ * getController()                  - Restituisce il controller passato tramite 
+ *                                    richiesta GET o POST
+ * impostaContenuto($contenuto)     - imposta il contenuto principale alla 
+ *                                    variabile privata della classe
+ * impostaPaginaRegistrato()        - Imposta la pagina per gli utenti 
+ *                                    registrati/autenticati
+ * impostaPaginaGuest()             - imposta la pagina per gli utenti non 
+ *                                    registrati/autenticati
+ * impostaTastiCategorie($categorie)- imposta i tasti per le categorie nel menu 
+ *                                    principale
+ * mostraPagina()                   - Assegna il contenuto al template e lo 
+ *                                    manda in output
+ * ============================================================================
  */
-/**
- * Classe VHome, estende la classe view e gestisce la visualizzazione e formattazione del sito, inoltre imposta i principali contenuti della pagina, suddivisi in contenuti principali (main_content) e contenuti della barra laterale (side_content)
- *
- * @package View
- */
-class VHome extends View {
+ class VHome extends View {
     /**
      * @var string $_main_content
      */
@@ -30,43 +50,69 @@ class VHome extends View {
      * @var string $_layout
      */
     private $_layout='default';
+
     /**
-     * Aggiunge il modulo di login nella pagina principale, per gli utenti non autenticato
+     * ========================================================================
+     * @name aggiungiModuloLogin()
+     * ========================================================================
+     * Aggiunge il modulo di login nella pagina principale, per gli utenti non 
+     * autenticati
+     * ========================================================================
      */
     public function aggiungiModuloLogin() {
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
         $VRegistrazione->setLayout('default');
         $modulo_login=$VRegistrazione->processaTemplate();
         $this->_side_content.=$modulo_login;
-
     }
+
     /**
+     * ========================================================================
+     * @name mostraPagina()
+     * ========================================================================
      * Assegna il contenuto al template e lo manda in output
+     * ========================================================================
      */
     public function mostraPagina() {
         $this->assign('right_content',$this->_side_content);
         $this->assign('tasti_laterali',$this->_side_button);
         $this->display('home_'.$this->_layout.'.tpl');
     }
+
     /**
+     * ========================================================================
+     * @name impostaContenuto($contenuto)
+     * @param string $contenuto
+     * ========================================================================
      * imposta il contenuto principale alla variabile privata della classe
+     * ========================================================================
      */
     public function impostaContenuto($contenuto) {
         $this->_main_content=$contenuto;
     }
+
     /**
-     * Restituisce il controller passato tramite richiesta GET o POST
-     *
+     * ========================================================================
+     * @name getController()
      * @return mixed
+     * ========================================================================
+     * Restituisce il controller passato tramite richiesta GET o POST
+     * ========================================================================
      */
     public function getController() {
-        if (isset($_REQUEST['controller']))
+        if (isset($_REQUEST['controller'])) {
             return $_REQUEST['controller'];
-        else
+        } else {
             return false;
+        }
     }
+
     /**
+     * ========================================================================
+     * @name impostaPaginaRegistrato()
+     * ========================================================================
      * Imposta la pagina per gli utenti registrati/autenticati
+     * ========================================================================
      */
     public function impostaPaginaRegistrato() {
         $session=USingleton::getInstance('USession');
@@ -77,8 +123,13 @@ class VHome extends View {
         $this->assign('menu',$this->_main_button);
         $this->aggiungiTastoLogout();
     }
+
     /*
+     * ========================================================================
+     * @name impostaPaginaGuest()
+     * ========================================================================
      * imposta la pagina per gli utenti non registrati/autenticati
+     * ========================================================================
      */
     public function impostaPaginaGuest() {
         $this->assign('title','CondiVino');
@@ -88,34 +139,37 @@ class VHome extends View {
         $this->aggiungiModuloLogin();
         $this->aggiungiTastoRegistrazione();
     }
+
     /**
+     * ========================================================================
+     * @name aggiungiTastoLogout()
+     * ========================================================================
      * aggiunge il tasto logout al menu laterale
+     * ========================================================================
      */
     public function aggiungiTastoLogout() {
         $tasto_logout=array();
-        $tasto_logout[]=array('testo' => 'Logout', 'link' => '?controller=registrazione&task=esci');
+        $tasto_logout[]=array('testo' => 'Logout', 'link' => 
+                                        '?controller=registrazione&task=esci');
         $this->_side_button=array_merge($tasto_logout,$this->_side_button);
     }
+
     /**
-     * aggiunge il tasto per la registrazione nel menu laterale (per gli utenti non autenticati)
+     * ========================================================================
+     * @name aggiungiTastoRegistrazione()
+     * ========================================================================
+     * aggiunge il tasto per la registrazione nel menu laterale (per gli utenti 
+     * non autenticati)
+     * ========================================================================
      */
     public function aggiungiTastoRegistrazione() {
         $menu_registrazione=array();
-        $menu_registrazione[]=array('testo' => 'Attivati', 'link' => '?controller=registrazione&task=attivazione');
-        $this->_side_button[]=array_merge(array('testo' => 'Registrati', 'link' => '?controller=registrazione&task=registra', 'submenu' => $menu_registrazione),$this->_side_button);
-    }
-    /**
-     * imposta i tasti per le categorie nel menu principale
-     */
-    public function impostaTastiCategorie($categorie){
-        $sotto_tasti=array();
-        $tasti=array();
-        foreach ($categorie as $categoria){
-            $sotto_tasti[]=array('testo' => $categoria['categoria'], 'link' => '?controller=ricerca&task=lista&categoria='.$categoria['categoria']);
-        }
-        $tasti[]=array('testo' => 'Categorie', 'link' => '#', 'submenu' => $sotto_tasti);
-        $this->_main_button=$tasti;
+        $menu_registrazione[]=array('testo' => 'Attivati', 'link' => 
+                                '?controller=registrazione&task=attivazione');
+        $this->_side_button[]=array_merge(array('testo' => 
+                                                        'Registrati', 'link' => 
+                        '?controller=registrazione&task=registra', 'submenu' => 
+                                     $menu_registrazione),$this->_side_button);
     }
 }
-
 ?>

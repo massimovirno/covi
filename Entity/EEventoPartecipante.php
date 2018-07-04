@@ -8,7 +8,7 @@
  * Class EEventoPartecipante - oggetto EEventoPartecipante del dominio 
  * ============================================================================
  * getPartecipante()           - Restituisce un array con i partecipanti
- * setEventoID(Int $id_evento) - Imposta l'ID dell'evento
+ * setEventoID(Int $eventoID)  - Imposta l'ID dell'evento
  * setPartecipante($username)  - Imposta un partecipante
  * ============================================================================
  */
@@ -71,14 +71,14 @@ class EEventoPartecipante {
 	
     /**
      * ========================================================================
-     * @name setEventoID(Int $id_evento)
-     * @param int Id_evento
+     * @name setEventoID(Int $eventoID)
+     * @param int $eventoID
      * ========================================================================
      * Imposta l'ID dell'evento
      * ========================================================================
      */
-    public function setEventoID(Int $id_evento) {
-        $this->_eventoID=$id_evento;
+    public function setEventoID(Int $eventoID) {
+        $this->_eventoID=$eventoID;
     }		
 }
 ?>
