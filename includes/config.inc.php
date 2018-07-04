@@ -23,9 +23,9 @@ $config['debug']=false;
 
 // impostazioni per MySQL
 $config['mysql']['user'] = 'root';
-$config['mysql']['password'] = 'root';
+$config['mysql']['password'] = '';
 $config['mysql']['host'] = 'localhost';
-$config['mysql']['database'] = 'condivinoauto';
+$config['mysql']['database'] = 'covi';
 
 //configurazione server smtp per invio email
 $config['smtp']['host'] = 'smtp.cheapnet.it';
@@ -34,8 +34,8 @@ $config['smtp']['smtpauth'] = false;
 $config['smtp']['username'] = '';
 $config['smtp']['password'] = '';
 
-$config['email_webmaster']='webmaster@comi.it';
-$config['url_condivino']='http://localhost/condivino';
+$config['email_webmaster']='webmaster@covi.it';
+$config['url_condivino']='http://localhost/covi';
 
 // istruzioni di debug
 function debug($var){
